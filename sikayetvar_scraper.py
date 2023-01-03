@@ -56,14 +56,19 @@ for i in range(int(first_page),end_page):
         link_first = "https://www.sikayetvar.com"
         link_complate =link_first + link_continue
         
-        link1 = complaint.find("span",attrs={"class":"time"})
+
+
+        
         complaint_ = requests.get(link_complate,headers = header)
         complaint_soup = BeautifulSoup(complaint_.content, "lxml")
     
         x_details = complaint_soup.find("div",attrs={"class":"card-text"})
         
+        link1 = complaint_soup.find("span",attrs={"class":"username"})
+        link2 = link1.span.get("title")
+        
         #Writing the excel
-        ws.cell(row=say, column=sabit).value = link1.text
+        ws.cell(row=say, column=sabit).value = link2
         ws.cell(row=say, column=sabit+1).value = link_complate
         ws.cell(row=say, column=sabit+2).value = x_details.text
         say+=1
@@ -71,7 +76,7 @@ for i in range(int(first_page),end_page):
         
         
         
-        print(link1.text)
+        print(link2)
         print(link_complate)
         print(x_details.text)
         print("****************")
